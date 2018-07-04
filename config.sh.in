@@ -1,2 +1,6 @@
-# Example configuration, just list what pairs/directions you want to test:
-PAIRS=( sme-nob nob-sme )
+# Example configuration
+
+declare -r LANG1=tat
+declare -r LANG2=chv
+declare -r PAIRS=( "$LANG1-$LANG2" "$LANG2-$LANG1" )
+declare -r PIPE='apertium ${LANG1_LANG2}-transfer2 -f none -d .. | apertium-cleanstream -n | tee ${transfout} | lt-proc -g ../${LANG1_LANG2}.autogen.bin | lt-proc -p ../${LANG1_LANG2}.autopgen.bin > ${genout}'
