@@ -8,7 +8,7 @@
 set -e -u
 
 ## Translation direction:
-LANG1_LANG2=$1
+SL_TL=$1
 ## This file is kept even after the script is ended:
 NEEDED=/tmp/corpus-stat-all-NEEDED.txt
 ## Percent (of * and @ error-free translated text) goal we aim
@@ -17,7 +17,7 @@ source "$(dirname $0)"/config.sh
 
 if test -t 0 ; then
     echo "Usage:" 1>&2
-    echo "\$ bzcat $LANG1.txt.bz2 | apertium-destxt | ./$0 $LANG1-LANG2" 1>&2
+    echo "\$ bzcat $LANG1.txt.bz2 | apertium-destxt | ./$0 $LANG1-$LANG2" 1>&2
     exit 1
 fi
 
@@ -33,8 +33,9 @@ TODOstripwords="the The of oblast in In it if ki any will his this who we right
 
 
 ### Do the translation:
-${PIPE}
-#apertium-deshtml | apertium "$PAIR-transfer2" -f none -d .. | apertium-cleanstream -n | tee "$transfout" | lt-proc -g "../$PAIR.autogen.bin" | lt-proc -p "../$PAIR.autopgen.bin" > "$genout"
+# ${PIPE} TODO fix this so that translation commands are taken from the config.sh instead
+
+apertium "${SL_TL}-transfer2" -f none -d .. | apertium-cleanstream -n | tee "$transfout" | lt-proc -g "../${SL_TL}.autogen.bin" | lt-proc -p "../${SL_TL}.autopgen.bin" > "$genout"
 
 ### Calculate stuff:
 # Make sorting and printf the same regardless of locale (has to be set after apertium commands):
